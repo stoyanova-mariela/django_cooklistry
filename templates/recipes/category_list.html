@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Categories | Cooklistry{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 mb-2">Recipe Categories</h1>
+        <p class="text-muted mb-0">
+            Browse and organize your recipes by category.
+        </p>
+    </div>
+
+    <a href="{% url 'recipes:category_add' %}" class="btn btn-success">
+        + Add Category
+    </a>
+</div>
+
+<div class="row g-4">
+    {% for category in categories %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h2 class="h5 card-title mb-3">
+                        {{ category.name }}
+                    </h2>
+
+                    {% if category.description %}
+                        <p class="card-text text-muted">
+                            {{ category.description }}
+                        </p>
+                    {% else %}
+                        <p class="card-text text-muted fst-italic">
+                            No description available.
+                        </p>
+                    {% endif %}
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="{% url 'recipes:category_edit' category.pk %}" class="btn btn-outline-success btn-sm">Edit</a>
+                        <a href="{% url 'recipes:category_delete' category.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="text-center bg-white rounded shadow-sm p-5">
+                <h2 class="h4 mb-3">No categories yet!</h2>
+
+                <p class="text-muted mb-4">
+                    Start organizing your recipes by creating your first category.
+                </p>
+
+                <a href="{% url 'recipes:category_add' %}"
+                   class="btn btn-success">
+                    Create First Category
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
