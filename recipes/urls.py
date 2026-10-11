@@ -1,9 +1,10 @@
 from django.urls import path, include
-from recipes.views import CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView
+from recipes.views import HomeView, CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView
 
 app_name = 'recipes'
 
 urlpatterns = [
+    path('', HomeView.as_view(), name='home'),
     path('categories/', include([
         path('', CategoryListView.as_view(), name='category_list'),
         path('add/', CategoryCreateView.as_view(), name='category_add'),

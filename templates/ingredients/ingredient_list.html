@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingredients | Cooklistry{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 mb-2">Recipe Ingredients</h1>
+        <p class="text-muted mb-0">
+            Browse and manage ingredients for your recipes.
+        </p>
+    </div>
+
+    <a href="{% url 'ingredients:ingredient_add' %}" class="btn btn-success">+ Add Ingredient</a>
+</div>
+
+<div class="row g-4">
+    {% for ingredient in ingredients %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h2 class="h5 card-title mb-3">
+                        {{ ingredient.name }}
+                    </h2>
+
+                    <p class="card-text text-muted">
+                        <strong>Default unit:</strong>
+                        {{ ingredient.get_default_unit_display }}
+                    </p>
+
+                    {% if ingredient.is_allergen %}
+                        <span class="badge bg-warning text-dark">
+                            Allergen
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            Non-allergen
+                        </span>
+                    {% endif %}
+
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="{% url 'ingredients:ingredient_edit' ingredient.pk %}" class="btn btn-outline-success btn-sm">Edit</a>
+                        <a href="{% url 'ingredients:ingredient_delete' ingredient.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="text-center bg-white rounded shadow-sm p-5">
+                <h2 class="h4 mb-3">No ingredients yet!</h2>
+
+                <p class="text-muted mb-4">
+                    Start building your recipe collection by adding your first ingredient.
+                </p>
+
+                <a href="{% url 'ingredients:ingredient_add' %}" class="btn btn-success">Create First Ingredient</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

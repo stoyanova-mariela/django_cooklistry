@@ -1,11 +1,15 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.db.models.deletion import ProtectedError
 from django.contrib import messages
 
 from recipes.forms import CategoryForm
 from recipes.models import Category
+
+
+class HomeView(TemplateView):
+    template_name = 'recipes/home.html'
 
 
 class CategoryCreateView(CreateView):

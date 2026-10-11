@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | Cooklistry{% endblock %}
+
+{% block content %}
+
+<section class="bg-success text-white rounded-3 shadow-sm p-5 text-center mb-5">
+    <h1 class="display-5 fw-bold mb-3">🍳 Welcome to Cooklistry!</h1>
+
+    <p class="lead mb-4">
+        Your personal space to organize recipes, manage ingredients,
+        and plan delicious meals in one place.
+    </p>
+
+    <a href="#explore" class="btn btn-light btn-lg text-success fw-semibold">
+        Explore Cooklistry
+    </a>
+</section>
+
+<section id="explore">
+    <div class="text-center mb-4">
+        <h2 class="h2 mb-2">Explore Cooklistry</h2>
+        <p class="text-muted">
+            Everything you need to organize your cooking journey.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 text-center">
+                    <div class="display-4 mb-3">📖</div>
+                    <h3 class="h4 mb-3">Recipes</h3>
+
+                    <p class="text-muted">
+                        Create, explore, and organize your favorite recipes.
+                    </p>
+
+                    <span class="badge bg-secondary">
+                        Coming Soon
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 text-center">
+                    <div class="display-4 mb-3">🗂️</div>
+                    <h3 class="h4 mb-3">Categories</h3>
+
+                    <p class="text-muted">
+                        Organize your recipes into categories
+                        and find what you need easily.
+                    </p>
+
+                    <a href="{% url 'recipes:category_list' %}"
+                       class="btn btn-success">
+                        Browse Categories
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 text-center">
+                    <div class="display-4 mb-3">🥕</div>
+                    <h3 class="h4 mb-3">Ingredients</h3>
+
+                    <p class="text-muted">
+                        Manage your ingredients, measurement units,
+                        and allergen information.
+                    </p>
+
+                    <a href="{% url 'ingredients:ingredient_list' %}"
+                       class="btn btn-success">
+                        Browse Ingredients
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 text-center">
+                    <div class="display-4 mb-3">📅</div>
+                    <h3 class="h4 mb-3">Meal Plans</h3>
+
+                    <p class="text-muted">
+                        Plan your meals and keep your weekly
+                        cooking schedule organized.
+                    </p>
+
+                    <span class="badge bg-secondary">
+                        Coming Soon
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

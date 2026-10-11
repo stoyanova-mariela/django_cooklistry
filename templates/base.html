@@ -11,9 +11,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'recipes:category_list' %}">
-                🍳 Cooklistry
-            </a>
+            <a class="navbar-brand fw-bold" href="{% url 'recipes:home' %}">🍳 Cooklistry</a>
 
             <div class="navbar-nav">
                 <a class="nav-link text-white"
@@ -25,6 +23,17 @@
                    href="{% url 'recipes:category_add' %}">
                     Add Category
                 </a>
+
+                <a class="nav-link text-white"
+                   href="{% url 'ingredients:ingredient_list' %}">
+                    Ingredients
+                </a>
+
+                <a class="nav-link text-white"
+                   href="{% url 'ingredients:ingredient_add' %}">
+                    Add Ingredient
+                </a>
+
             </div>
         </div>
     </nav>
