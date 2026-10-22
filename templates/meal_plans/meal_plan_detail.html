@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h1 class="mb-2">{{ meal_plan.title }}</h1>
+                            <p class="text-muted mb-0">
+                                Week starting:
+                                {{ meal_plan.week_start|date:"d/m/Y" }}
+                            </p>
+                        </div>
+
+                        <span class="badge bg-success">
+                            Meal Plan
+                        </span>
+                    </div>
+                    <hr>
+                    <h4 class="mb-3">Selected Recipes</h4>
+
+                    <div class="list-group mb-4">
+                        {% for recipe in meal_plan.recipes.all %}
+                            <a href="{% url 'recipes:recipe_detail' recipe.pk %}"
+                               class="list-group-item list-group-item-action
+                                      d-flex justify-content-between align-items-center">
+                                <span>{{ recipe.title }}</span>
+                                <span class="text-success">View Recipe &rarr;</span>
+                            </a>
+                        {% empty %}
+                            <div class="alert alert-info">
+                                No recipes have been added to this meal plan yet.
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <h4 class="mb-3">Additional Notes</h4>
+
+                    {% if meal_plan.notes %}
+                        <p class="text-muted">
+                            {{ meal_plan.notes|linebreaksbr }}
+                        </p>
+                    {% else %}
+                        <p class="text-muted fst-italic">
+                            No additional notes.
+                        </p>
+                    {% endif %}
+                    <hr>
+                    <div class="d-flex flex-wrap gap-2 mt-4">
+                        <a href="{% url 'meal_plans:meal_plan_edit' meal_plan.pk %}"
+                           class="btn btn-primary">
+                            Edit Meal Plan
+                        </a>
+
+                        <a href="{% url 'meal_plans:meal_plan_delete' meal_plan.pk %}"
+                           class="btn btn-outline-danger">
+                            Delete Meal Plan
+                        </a>
+
+                        <a href="{% url 'meal_plans:meal_plan_list' %}"
+                           class="btn btn-outline-secondary">
+                            Back to Meal Plans
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

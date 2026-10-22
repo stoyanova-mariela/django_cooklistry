@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>My Meal Plans</h1>
+        <a href="{% url 'meal_plans:meal_plan_create' %}" class="btn btn-success">+ Create New Meal Plan</a>
+    </div>
+
+    <div class="row g-4">
+        {% for meal_plan in meal_plans %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ meal_plan.title }}</h5>
+
+                        <p class="text-muted">
+                            Week starting:
+                            {{ meal_plan.week_start|date:"d/m/Y" }}
+                        </p>
+
+                        <p>
+                            Recipes:
+                            {{ meal_plan.recipes.count }}
+                        </p>
+
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{% url 'meal_plans:meal_plan_detail' meal_plan.pk %}"
+                               class="btn btn-outline-success btn-sm">
+                                View Details
+                            </a>
+
+                            <a href="{% url 'meal_plans:meal_plan_edit' meal_plan.pk %}"
+                               class="btn btn-outline-primary btn-sm">
+                                Edit
+                            </a>
+
+                            <a href="{% url 'meal_plans:meal_plan_delete' meal_plan.pk %}"
+                               class="btn btn-outline-danger btn-sm">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <h4>No meal plans yet!</h4>
+                <p class="text-muted">
+                    Create your first weekly meal plan and organize your recipes.
+                </p>
+                <a href="{% url 'meal_plans:meal_plan_create' %}"
+                   class="btn btn-success">
+                    Create Your First Meal Plan
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
