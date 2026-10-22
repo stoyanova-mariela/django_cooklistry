@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load recipe_extras %}
 
 {% block title %}All Recipes | Cooklistry{% endblock %}
 
@@ -7,6 +8,71 @@
     <h1>All Recipes</h1>
     <a href="{% url 'recipes:recipe_add' %}" class="btn btn-success">Add Recipe</a>
 </div>
+
+<form method="get" class="card shadow-sm border-0 p-4 mb-4">
+    <div class="row g-3 align-items-end">
+
+        <div class="col-md-5">
+            <label for="search" class="form-label">
+                Search Recipes
+            </label>
+            <input type="text"
+                   id="search"
+                   name="search"
+                   class="form-control"
+                   placeholder="Search by recipe title..."
+                   value="{{ request.GET.search }}">
+        </div>
+
+        <div class="col-md-4">
+            <label for="category" class="form-label">
+                Category
+            </label>
+            <select id="category"
+                    name="category"
+                    class="form-select">
+                <option value="">All Categories</option>
+
+                {% for category in categories %}
+                    <option value="{{ category.pk }}"
+                        {% if selected_category == category.pk|stringformat:"s" %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="sort" class="form-label">
+                Sort By
+            </label>
+            <select id="sort"
+                    name="sort"
+                    class="form-select">
+                <option value="az"
+                    {% if selected_sort == "az" %}selected{% endif %}>
+                    Title A–Z
+                </option>
+                <option value="za"
+                    {% if selected_sort == "za" %}selected{% endif %}>
+                    Title Z–A
+                </option>
+            </select>
+        </div>
+
+        <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-success">
+                Apply Filters
+            </button>
+
+            <a href="{% url 'recipes:recipe_list' %}"
+               class="btn btn-outline-secondary">
+                Clear
+            </a>
+        </div>
+
+    </div>
+</form>
 
 <div class="row g-4">
     {% for recipe in recipes %}
@@ -29,7 +95,7 @@
                         </span>
 
                         <span class="badge bg-secondary">
-                            {{ recipe.preparation_time }} min
+                            {{ recipe.preparation_time|minutes_to_hours }}
                         </span>
                     </div>
 
@@ -37,13 +103,28 @@
                 </div>
             </div>
         </div>
+
     {% empty %}
         <div class="col-12 text-center py-5">
-            <h4>No recipes yet.</h4>
-            <p class="text-muted">
-                Start by adding your first recipe!
-            </p>
-            <a href="{% url 'recipes:recipe_add' %}" class="btn btn-success">Add Recipe</a>
+            {% if request.GET.search or request.GET.category %}
+                <h4>No matching recipes found.</h4>
+                <p class="text-muted">
+                    Try different search criteria or clear the filters.
+                </p>
+                <a href="{% url 'recipes:recipe_list' %}"
+                   class="btn btn-outline-success">
+                    Clear Filters
+                </a>
+            {% else %}
+                <h4>No recipes yet.</h4>
+                <p class="text-muted">
+                    Start by adding your first recipe!
+                </p>
+                <a href="{% url 'recipes:recipe_add' %}"
+                   class="btn btn-success">
+                    Add Recipe
+                </a>
+            {% endif %}
         </div>
     {% endfor %}
 </div>

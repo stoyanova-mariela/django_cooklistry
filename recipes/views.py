@@ -93,7 +93,28 @@ class RecipeListView(ListView):
     context_object_name = 'recipes'
 
     def get_queryset(self):
-        return Recipe.objects.select_related('category').order_by('title')
+        search = self.request.GET.get('search', '').strip()
+        category = self.request.GET.get('category', '')
+        sort = self.request.GET.get('sort', 'az')
+        queryset = Recipe.objects.select_related('category')
+
+        if search:
+            queryset = queryset.filter(title__icontains=search)
+
+        if category.isdecimal():
+            queryset = queryset.filter(category_id=int(category))
+
+        if sort == 'za':
+            return queryset.order_by('-title')
+        return queryset.order_by('title')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        context['selected_category'] = self.request.GET.get('category', '')
+        context['selected_sort'] = self.request.GET.get('sort', 'az')
+
+        return context
 
 
 class RecipeUpdateView(UpdateView):
