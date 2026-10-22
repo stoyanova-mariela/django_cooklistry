@@ -1,7 +1,16 @@
 from django import forms
 from .models import MealPlan
+from django.utils import timezone
 
 class MealPlanForm(forms.ModelForm):
+    created_at_display = forms.CharField(
+        label='Created At',
+        required=False,
+        disabled=True,
+        help_text='The date when this meal plan was created.',
+        widget=forms.TextInput(attrs={'class': "form-control"}),
+    )
+
     class Meta:
         model = MealPlan
         fields = ['title', 'week_start', 'notes', 'recipes']
@@ -36,6 +45,16 @@ class MealPlanForm(forms.ModelForm):
                 'required': 'Please select at least one recipe.',
             }
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance.pk:
+            created_at = timezone.localtime(self.instance.created_at)
+
+            self.fields['created_at_display'].initial = (created_at.strftime('%d/%m/%Y %H:%M'))
+        else:
+            self.fields.pop('created_at_display', None)
 
     def clean_title(self):
         title = self.cleaned_data.get('title', '').strip()
